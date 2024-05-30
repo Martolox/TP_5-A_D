@@ -3,6 +3,7 @@ package org.unrn.ejercicio5;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.unrn.ejercicio5.app.Concurso;
+import org.unrn.ejercicio5.app.MailDecorator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +18,8 @@ public class TestConcursos {
     private final Concurso c = new Concurso("Concurso 1",
             LocalDate.now().minusDays(1),
             LocalDate.now().plusDays(10),
-            regInsc, emisor);
+            regInsc);
+    private final MailDecorator mailDecorator = new MailDecorator(c, emisor);
 
     @BeforeEach
     public void borrarArchivo() {
@@ -57,5 +59,11 @@ public class TestConcursos {
     public void participanteSeInscribeFueraDeRango() {
         assertThrows(RuntimeException.class, () ->
                 c.inscribirParticipante("Juan", LocalDate.now().minusDays(2)));
+    }
+
+    @Test
+    public void participanteSeInscribeYSeEnviaMail() {
+        assertFalse(c.isParticipante("David"));
+        mailDecorator.inscribirParticipante("David", LocalDate.now());
     }
 }

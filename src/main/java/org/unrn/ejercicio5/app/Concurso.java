@@ -1,6 +1,5 @@
 package org.unrn.ejercicio5.app;
 
-import org.unrn.ejercicio5.mail.Emisor;
 import org.unrn.ejercicio5.registro.RegInscripciones;
 
 import java.time.LocalDate;
@@ -10,30 +9,28 @@ import java.util.List;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 
-public class Concurso {
+public class Concurso implements IConcurso {
     private final String nomConcurso;
     private final LocalDate fechaInicio;
     private final LocalDate fechaCierre;
     private final RegInscripciones regInsc;
-    private final Emisor emisor;
     private final List<Participante> participantes = new ArrayList<>();
     private final List<Inscripcion> inscripciones = new ArrayList<>();
 
     public Concurso(String nomConcurso, LocalDate fechaInicio, LocalDate fechaCierre,
-                    RegInscripciones regInsc, Emisor emisor) {
+                    RegInscripciones regInsc) {
         this.nomConcurso = nomConcurso;
         this.fechaInicio = fechaInicio;
         this.fechaCierre = fechaCierre;
         this.regInsc = regInsc;
-        this.emisor = emisor;
     }
 
+    @Override
     public void inscribirParticipante(String nombre, LocalDate fechaInsc) {
         verificarInscripcionEnFecha(fechaInsc);
         agregarParticipante(nombre, fechaInsc);
         inscripciones.add(new Inscripcion(nombre, nomConcurso, fechaInsc));
         guardarInscripcion(nombre, nomConcurso, fechaInsc);
-        enviarMail();
     }
 
     private void verificarInscripcionEnFecha(LocalDate fechaInsc) {
@@ -63,11 +60,6 @@ public class Concurso {
         String texto = fechaInsc.format(ofLocalizedDate(FormatStyle.SHORT)) +
                 ", " + nombre + ", " + nomConcurso + "\n";
         regInsc.guardar(texto);
-    }
-
-    private void enviarMail() {
-
-        emisor.enviarMail("Se registró correctamente al participante");
     }
 
     public boolean isInscripcion(String nombre, LocalDate fechaInsc) {
