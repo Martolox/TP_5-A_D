@@ -23,7 +23,7 @@ public class TestExportacion {
 
     @Test
     public void archivoNulo_DebeDevolverErrorVerificado() {
-        var reporteComp = new ReporteConVerificacion(reporteSimple);
+        var reporteComp = new DecoradorConVerificacion(reporteSimple);
         var e = assertThrows(IllegalArgumentException.class, () -> reporteComp.export(null));
         assertEquals("File es NULL; no puedo exportar...", e.getMessage());
 
@@ -44,7 +44,7 @@ public class TestExportacion {
 
     @Test
     public void archivoExiste_DebeDevolverError() {
-        var reporteComp = new ReporteSinSobreescritura(reporteSimple);
+        var reporteComp = new DecoradorSinSobreescritura(reporteSimple);
         var e = assertThrows(IllegalArgumentException.class, () -> reporteComp.export(new File(RUTA_VALIDA)));
         assertEquals("El archivo ya existe...", e.getMessage());
 

@@ -2,11 +2,10 @@ package org.unrn.ejercicio3;
 
 import java.io.File;
 
-public class ReporteConVerificacion implements Reporte {
-    private Reporte reporte;
+public class DecoradorConVerificacion extends Decorador {
 
-    public ReporteConVerificacion(Reporte reporte) {
-        this.reporte = reporte;
+    public DecoradorConVerificacion(Reporte reporte) {
+        super(reporte);
     }
 
     @Override

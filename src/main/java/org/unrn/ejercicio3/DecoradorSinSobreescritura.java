@@ -2,11 +2,10 @@ package org.unrn.ejercicio3;
 
 import java.io.File;
 
-public class ReporteSinSobreescritura implements Reporte {
-    private Reporte reporte;
+public class DecoradorSinSobreescritura extends Decorador {
 
-    public ReporteSinSobreescritura(Reporte reporte) {
-        this.reporte = reporte;
+    public DecoradorSinSobreescritura(Reporte reporte) {
+        super(reporte);
     }
 
     @Override
